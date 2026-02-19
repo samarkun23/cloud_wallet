@@ -30,7 +30,7 @@ function App() {
 
     console.log(serializedTx);
 
-    await axios.post("/api/v1/txn/sign", {
+    await axios.post("http://localhost:3000/api/v1/sign", {
       message: serializedTx,
       retry: false
     })
@@ -48,15 +48,16 @@ function App() {
 
     </>
   )
-}
-function Home() {
-  return (
-    <div style={{ display: 'flex', gap: '10px', }}>
-      <input type="text" placeholder='Amount' />
-      <input type="text" placeholder='Address' />
-      {/* <button onClick={sendSol}>Submit</button> */}
-    </div>
-  )
+
+  function Home() {
+    return (
+      <div style={{ display: 'flex', gap: '10px', }}>
+        <input type="text" placeholder='Amount' />
+        <input type="text" placeholder='Address' />
+        <button onClick={sendSol}>Submit</button>
+      </div>
+    )
+  }
 }
 
 export default App
