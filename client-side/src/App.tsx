@@ -1,6 +1,8 @@
 import axios from 'axios';
 import './App.css'
-import {Transaction, PublicKey, SystemProgram, LAMPORTS_PER_SOL, Connection} from '@solana/web3.js'
+import { Transaction, PublicKey, SystemProgram, LAMPORTS_PER_SOL, Connection } from '@solana/web3.js'
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Signup from './components/Signup';
 
 
 const fromPubkey = new PublicKey("7ozL17LzUqfMV1yKqn1dKjUQkxuehrScdZVX26HrGDWX")
@@ -11,7 +13,7 @@ function App() {
   async function sendSol() {
     const ix = SystemProgram.transfer({
       fromPubkey: fromPubkey,
-      toPubkey:  new PublicKey("3TdHMbqcvkAmmZZjmMbUrUjiVBz155KomddiK2ZHNRov") ,
+      toPubkey: new PublicKey("3TdHMbqcvkAmmZZjmMbUrUjiVBz155KomddiK2ZHNRov"),
       lamports: 0.01 * LAMPORTS_PER_SOL
     })
     const tx = new Transaction().add(ix);
@@ -30,19 +32,30 @@ function App() {
 
     await axios.post("/api/v1/txn/sign", {
       message: serializedTx,
-      retry : false
+      retry: false
     })
 
   }
 
   return (
     <>
-      <div style={{ display : 'flex' , gap: '10px', }}>
-        <input type="text" placeholder='Amount' />
-        <input type="text" placeholder='Address' />
-        <button onClick={sendSol}>Submit</button>
-      </div>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/signup' element={<Signup />} />
+        </Routes>
+      </BrowserRouter>
+
     </>
+  )
+}
+function Home() {
+  return (
+    <div style={{ display: 'flex', gap: '10px', }}>
+      <input type="text" placeholder='Amount' />
+      <input type="text" placeholder='Address' />
+      {/* <button onClick={sendSol}>Submit</button> */}
+    </div>
   )
 }
 
